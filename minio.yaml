@@ -25,7 +25,7 @@ spec:
       volumes:
         - name: minio
           hostPath:
-            path: /MyFiles/Workspace/Projects/Practice/Spinnaker/minio-data/
+            path: /mnt/minio-data/
             type: DirectoryOrCreate
 
 ---
