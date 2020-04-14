@@ -13,7 +13,9 @@ Create a Spinnaker Kubernetes Service account.
 CONTEXT=$(kubectl config current-context)
 
 -# This service account uses the ClusterAdmin role -- this is not necessary,
+
 -# more restrictive roles can by applied.
+
 kubectl apply --context $CONTEXT \
     -f https://spinnaker.io/downloads/kubernetes/service-account.yml
 
