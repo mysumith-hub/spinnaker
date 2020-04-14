@@ -6,6 +6,7 @@ docker run\
     -v ${PWD}/kube:/home/spinnaker/.kube \
     -e KUBECONFIG=/home/spinnaker/.kube/config \
     gcr.io/spinnaker-marketplace/halyard:1.28.0
+
 ---------------------------------------------
 Create a Spinnaker Kubernetes Service account.
 
@@ -25,8 +26,8 @@ TOKEN=$(kubectl get secret --context $CONTEXT \
    -o jsonpath='{.data.token}' | base64 --decode)
 
 kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
-
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
+
 ---------------------------------------------
 Enable Kubernetes incase of any K8S Deployment
 hal config provider kubernetes enable
@@ -34,7 +35,8 @@ CONTEXT=$(kubectl config current-context)
 hal config provider kubernetes account add minikube_k8s \
     --provider-version v2 \
     --context $CONTEXT
-hal config features edit --artifacts true
+hal config features edit --artifacts true    
+
 ---------------------------------------------
 Storage service as Minio, we can minio.yaml to deploy and expose service as NodePort  
 Given that Minio doesn’t support versioning objects, we need to disable it in Spinnaker. Add the following line to
@@ -48,16 +50,18 @@ echo $MINIO_SECRET_KEY | hal config storage s3 edit --endpoint $ENDPOINT \
     # will be read on STDIN to avoid polluting your
     # ~/.bash_history with a secret
 
-hal config storage edit --type s3
+hal config storage edit --type s3   
+
 -----------------------------------------------
 hal config deploy edit --type distributed --account-name minikube_k8s   
 hal version list
 hal config version edit --version $VERSION
 hal deploy apply
+
 -----------------------------------------------
 
-echo minioadmin | hal config storage s3 edit --endpoint http://192.168.99.100:31507 \
+echo minioadmin | hal config storage s3 edit --endpoint http://<ip>:<port> \
     --access-key-id minioadmin \
     --secret-access-key    
 
---------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------
