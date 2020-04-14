@@ -6,14 +6,13 @@ docker run\
     -v ${PWD}/kube:/home/spinnaker/.kube \
     -e KUBECONFIG=/home/spinnaker/.kube/config \
     gcr.io/spinnaker-marketplace/halyard:1.28.0
-
 ---------------------------------------------
 Create a Spinnaker Kubernetes Service account.
 
 CONTEXT=$(kubectl config current-context)
 
-# This service account uses the ClusterAdmin role -- this is not necessary,
-# more restrictive roles can by applied.
+-# This service account uses the ClusterAdmin role -- this is not necessary,
+-# more restrictive roles can by applied.
 kubectl apply --context $CONTEXT \
     -f https://spinnaker.io/downloads/kubernetes/service-account.yml
 
@@ -30,14 +29,12 @@ kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
 ---------------------------------------------
 Enable Kubernetes incase of any K8S Deployment
-
 hal config provider kubernetes enable
 CONTEXT=$(kubectl config current-context)
 hal config provider kubernetes account add minikube_k8s \
     --provider-version v2 \
     --context $CONTEXT
 hal config features edit --artifacts true
-
 ---------------------------------------------
 Storage service as Minio, we can minio.yaml to deploy and expose service as NodePort  
 Given that Minio doesn’t support versioning objects, we need to disable it in Spinnaker. Add the following line to
@@ -52,7 +49,6 @@ echo $MINIO_SECRET_KEY | hal config storage s3 edit --endpoint $ENDPOINT \
     # ~/.bash_history with a secret
 
 hal config storage edit --type s3
-
 -----------------------------------------------
 hal config deploy edit --type distributed --account-name minikube_k8s   
 hal version list
