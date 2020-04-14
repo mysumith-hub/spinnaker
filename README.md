@@ -16,8 +16,7 @@ CONTEXT=$(kubectl config current-context)
 
 -# more restrictive roles can by applied.
 
-kubectl apply --context $CONTEXT \
-    -f https://spinnaker.io/downloads/kubernetes/service-account.yml
+kubectl apply --context $CONTEXT -f https://spinnaker.io/downloads/kubernetes/service-account.yml
 
 TOKEN=$(kubectl get secret --context $CONTEXT \
    $(kubectl get serviceaccount spinnaker-service-account \
